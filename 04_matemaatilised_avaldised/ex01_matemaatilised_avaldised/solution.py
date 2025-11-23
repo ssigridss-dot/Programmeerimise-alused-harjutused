@@ -57,13 +57,13 @@ def calculate_discriminant(a: int, b: int, c: int) -> int:
 
 def calculate_hypotenuse_length(a: int, b: int) -> float:
     """Return the length of hypotenuse when the lengths of the catheti are given."""
-
+    c = math.sqrt((a ** 2 + b ** 2))
     return c
 
 
 def calculate_cathetus_length(a: int, c: int) -> float:
     """Return the length of cathetus when the lengths of the second cathetus and hypotenuse are given."""
-    # Write your code here
+    b = math.sqrt((c ** 2 - a ** 2))
     return b
 
 if __name__ == '__main__':
@@ -79,6 +79,7 @@ if __name__ == '__main__':
     integer_division_result = integer_division(10,10)
     assert isinstance(integer_division_result, int)
     assert integer_division_result == 1
+
     integer_division_result = integer_division(10,2)
     assert integer_division_result == 5
 
