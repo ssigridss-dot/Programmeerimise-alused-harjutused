@@ -51,7 +51,7 @@ def area_of_an_equilateral_triangle(side_length: float) -> int:
 
 def calculate_discriminant(a: int, b: int, c: int) -> int:
     """Calculate discriminant with given variables and return the result."""
-    discriminant = 1
+    discriminant = b ** 2 - 4 * a * c
     return discriminant
 
 
