@@ -66,6 +66,7 @@ def calculate_cathetus_length(a: int, c: int) -> float:
     b = math.sqrt((c ** 2 - a ** 2))
     return b
 
+
 if __name__ == '__main__':
     addition_result, difference = sum_and_difference(5, 6)
 
