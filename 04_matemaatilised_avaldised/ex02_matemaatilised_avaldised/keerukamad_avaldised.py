@@ -28,3 +28,5 @@ def adding_numbers(num_a: int, num_b: int) -> str:
     string_numbers = str(num_a) + str(num_b)
     return string_numbers
 
+
+
