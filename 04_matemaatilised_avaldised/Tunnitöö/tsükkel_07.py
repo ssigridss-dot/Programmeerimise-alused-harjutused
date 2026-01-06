@@ -10,6 +10,7 @@ def draw_square(size: int, symbol: str, alt: str):
                 print(f"{alt}", end=" ")
             else:
                 print(f"{'o'}", end=" ")
+        print()
 
 
 if __name__ == '__main__':
