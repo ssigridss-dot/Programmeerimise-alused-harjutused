@@ -1,5 +1,6 @@
 """Loop exercises."""
 
+
 def sum_between(start: int, end: int) -> int:
     """
     Return sum of integers between start and end (both included).
@@ -23,7 +24,7 @@ def sum_of_even_numbers(n: int) -> int:
     print(sum_of_even_numbers(0)) => 0
     """
     total = 0
-    for n in range( n + 1):
+    for n in range(n + 1):
         if n % 2 == 0:
             total += n
     return total
@@ -52,7 +53,7 @@ def cross_sum(numbers: str) -> int:
     print(cross_sum("4129458")) => 33
     """
     total = 0
-    for i, nr in enumerate(list(numbers)):
+    for nr in numbers:
         total += int(nr)
     return total
 
@@ -65,7 +66,12 @@ def multiply_between(start: int, end: int) -> int:
     print(multiply_between(4, 14)) => 14529715200
     print(multiply_between(0, 7)) => 0
     """
-    # Your code goes here
+    result = 1
+    if start > end:
+        start, end = end, start
+    for i in range(start, end + 1):
+        result *= i
+    return result
 
 
 def make_hola_string(count: int) -> str:
@@ -75,7 +81,7 @@ def make_hola_string(count: int) -> str:
     print(make_hola_string(3)) => "holaholahola"
     print(make_hola_string(0)) => ""
     """
-    # Your code goes here
+    return "hola" * count
 
 
 def compound_interest(amount: int, years: int, rate: int) -> float:
@@ -85,7 +91,7 @@ def compound_interest(amount: int, years: int, rate: int) -> float:
     print(compound_interest(100, 2, 2)) => 104.04
     print(compound_interest(2000, 6, 8)) => 3173.748645888
     """
-    # Your code goes here
+    return amount * (1 + rate / 100) ** years
 
 
 def remove_vowels(original_string: str) -> str:
@@ -96,7 +102,12 @@ def remove_vowels(original_string: str) -> str:
     print(remove_vowels("hklmn")) => hklmn
     print(remove_vowels("aauuiii")) => ""
     """
-    # Your code goes here
+    vowels = "aeiouõäöüAEIOUÕÄÖÜ"
+    result = ""
+    for char in original_string:
+        if char not in vowels:
+            result += char
+    return result
 
 
 if __name__ == '__main__':
