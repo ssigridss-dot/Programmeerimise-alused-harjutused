@@ -18,10 +18,10 @@ def right_answer():
     third_number = int(input("Sisesta kolmas arv: "))
     calculate_numbers = int(input("Mis on nende sisestatud arvude summa? "))
     right_answer = first_number + second_number + third_number
-        if calculate_numbers != right_answer:
-           print(f"Õige vastus on {right_answer}.")
-        else:
-            print(f"Tubli! Said õige vastuse.")
+    if calculate_numbers != right_answer:
+        print(f"Õige vastus on {right_answer}.")
+    else:
+        print(f"Tubli! Said õige vastuse.")
 
 
 if __name__ == '__main__':
