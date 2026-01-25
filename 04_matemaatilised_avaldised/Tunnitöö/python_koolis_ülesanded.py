@@ -1,5 +1,6 @@
 def compute_rectangle():
-    """Koosta programm, mis küsib kasutajalt ristküliku lähiskülgede pikkused ning väljastab ekraanile ristküliku ümbermõõdu ja pindala."""
+    """Koosta programm, mis küsib kasutajalt ristküliku lähiskülgede pikkused ning väljastab
+    ekraanile ristküliku ümbermõõdu ja pindala."""
     length = float(input("Sisesta ristküliku pikkus: "))
     width = float(input("Sisesta ristküliku laius: "))
     area = width * length
@@ -21,7 +22,8 @@ def verify_age(age: int) -> str:
 
 def calculate(num1, num2, operation) -> str:
     """
-    Koosta lihtne kalkulaator. Kasutajalt küsitakse kaks arvu ja tehtemärk ning seejärel kuvatakse tehe koos vastusega. Näiteks:
+    Koosta lihtne kalkulaator. Kasutajalt küsitakse kaks arvu ja tehtemärk ning seejärel kuvatakse
+    tehe koos vastusega. Näiteks:
 
     Sisestage esimene arv: 2
     Sisestage teine arv: 3
@@ -47,7 +49,9 @@ def calculate(num1, num2, operation) -> str:
 
 
 def dog_calculate(num1: float, num2: float, operation: str) -> str:
-    """Eelmise ülesande alusel koostage programm M-Koer (Matemaatiline Koer), millele antakse samuti ette kaks arvu ja tehtemärk, kuid vastus ei kirjutata mitte arvulisel kujul, vaid esitatakse "haukudes". Igaks juhuks: tsükleid pole vaja kasutada, me pole neid veel õppinud.
+    """Eelmise ülesande alusel koostage programm M-Koer (Matemaatiline Koer), millele antakse samuti
+    ette kaks arvu ja tehtemärk, kuid vastus ei kirjutata mitte arvulisel kujul, vaid esitatakse
+    "haukudes". Igaks juhuks: tsükleid pole vaja kasutada, me pole neid veel õppinud.
 
     Sisestage esimene arv: 2
     Sisestage teine arv: 3
