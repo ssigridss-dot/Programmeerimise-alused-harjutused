@@ -27,6 +27,6 @@ def camel_case_word_counter(input_string: str) -> int:
 
 
 if __name__ == '__main__':
-    camel_case_word_counter("someMoreWordsHere")
-    camel_case_word_counter("hello")
-    camel_case_word_counter("")
+    print(camel_case_word_counter("someMoreWordsHere"))
+    print(camel_case_word_counter("hello"))
+    print(camel_case_word_counter(""))
