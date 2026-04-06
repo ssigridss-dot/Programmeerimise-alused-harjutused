@@ -24,8 +24,14 @@ class Animal:
         return self.name
 
 
+class Cat(Animal):
+    """Class Cat extends class Animal"""
+
+    def __init__(self, name, is_pet=True):
+        super().__init__(name, is_pet)
+
 class Dog(Animal):
-    """Class Dog exends class Animal"""
+    """Class Dog extends class Animal"""
 
     def __init__(self, name, is_pet=True):
         """
@@ -37,13 +43,13 @@ class Dog(Animal):
         # Overriding the base constructor, passing new values to self.is_pet and self.name
         super().__init__(name, is_pet)
 
-    def roll(self) -> str:
+    def roll(self):
         """
         Extra method, specific for this class.
 
         :return:
         """
-        return "*rolling*"
+        return("*rolling*")
 
     def speak(self):
         """
@@ -53,11 +59,6 @@ class Dog(Animal):
         :return: Bark!
         """
         return "Bark!"
-
-
-class Cat(Animal):
-    def __init__(self, name, is_pet= False):
-        super().__init__(name, is_pet)
 
 
 class Dolphin(Animal):
@@ -87,7 +88,7 @@ class Dolphin(Animal):
         :return: boolean
         """
 
-        return self.smart or self.playful
+        return self.smart or self.playful or super().is_friendly()
 
     def greet(self):
         """
@@ -113,13 +114,12 @@ class Dolphin(Animal):
 
         return "No."
 
+
 def speak_test(animal: Animal):
-        print(animal.speak())
+    print(animal.speak())
 
 
 if __name__ == '__main__':
-    cat = Cat("Miisu")
-    print(cat.is_pet)
     animal = Animal()
     print(animal.is_pet)  # --> False
     print(animal)  # --> None
@@ -147,9 +147,9 @@ if __name__ == '__main__':
     print(dolphin.speak())  # --> I cannot
     print(dolphin.perform_jump())  # --> I will jump.. For food.
 
-    print("speak_tests")
+    print()
+
+    print("Speak tests")
     speak_test(animal)
     speak_test(dog)
     speak_test(dolphin)
-
-    print()

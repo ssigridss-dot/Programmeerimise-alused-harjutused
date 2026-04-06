@@ -1,0 +1,6 @@
+1;Tõde ja õigus;A. H. Tammsaare;1926
+2;Kevade;Oskar Luts;1912
+3;Python algajale;John Smith;2020
+4;Rehepapp;A. H. Tammsaare;1926
+5;Andmebaasid;Maria Mets;2019
+6;Eesti ajalugu;Jaan Tamm;2015

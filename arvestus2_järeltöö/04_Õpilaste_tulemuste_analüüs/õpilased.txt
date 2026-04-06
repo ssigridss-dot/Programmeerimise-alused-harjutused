@@ -1,0 +1,6 @@
+Mati Maasikas;10A
+Kati Kask;10B
+Peeter Puu;10A
+Mari Mets;10B
+Jüri Juurikas;10A
+Anna Aru;10C

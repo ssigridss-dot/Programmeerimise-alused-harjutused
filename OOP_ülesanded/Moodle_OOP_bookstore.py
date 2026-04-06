@@ -17,6 +17,12 @@ class Book:
         self.price = price
         self.rating = rating
 
+    def __eq__(self, value):
+        """Check if is same object."""
+        if isinstance(value, Book):
+            return self.author == value.author and self.title == value.title
+        return False
+
 
 class Store:
     """Represent book store model."""
@@ -43,11 +49,8 @@ class Store:
         2. book's own rating is >= than store's rating
         :return: bool
         """
-        for b in self.books:
-            if b.title == book.title and b.author == book.author:
-                print("No")
-                return False
-        print("Yes")
+        if book in self.books:
+            return False
         return book.rating >= self.rating
 
     def add_book(self, book: Book):
@@ -57,7 +60,8 @@ class Store:
         :param book: Book
         Function does not return anything
         """
-        pass
+        if self.can_add_book(book):
+            self.books.append(book)
 
     def can_remove_book(self, book: Book) -> bool:
         """
@@ -67,7 +71,7 @@ class Store:
 
         :return: bool
         """
-        pass
+        return book in self.books
 
     def remove_book(self, book: Book):
         """
@@ -75,7 +79,8 @@ class Store:
 
         Function does not return anything
         """
-        pass
+        if self.can_remove_book(book):
+            self.books.remove(book)
 
     def get_all_books(self) -> list:
         """
@@ -83,7 +88,7 @@ class Store:
 
         :return: list of Book objects
         """
-        pass
+        return self.books
 
     def get_books_by_price(self) -> list:
         """
@@ -91,7 +96,7 @@ class Store:
 
         :return: list of Book objects
         """
-        pass
+        return sorted(self.books, key=lambda book: book.price)
 
     def get_most_popular_book(self) -> list:
         """
@@ -99,7 +104,8 @@ class Store:
 
         :return: list of Book objects
         """
-        pass
+        highest_rating = max(self.books, key=lambda book: book.rating).rating
+        return list(filter(lambda book: book.rating == highest_rating, self.get_all_books()))
 
 
 if __name__ == '__main__':

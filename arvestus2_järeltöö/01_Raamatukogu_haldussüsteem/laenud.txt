@@ -1,0 +1,7 @@
+1;Mati Maasikas
+3;Kati Kask
+1;Peeter Puu
+3;Jüri Juurikas
+1;Anna Aru
+2;Siiri Saar
+3;Toomas Tamm

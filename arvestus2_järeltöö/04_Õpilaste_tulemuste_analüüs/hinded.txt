@@ -1,0 +1,18 @@
+Mati Maasikas;Matemaatika;4
+Mati Maasikas;Eesti keel;5
+Mati Maasikas;Inglise keel;4
+Kati Kask;Matemaatika;5
+Kati Kask;Eesti keel;5
+Kati Kask;Inglise keel;5
+Peeter Puu;Matemaatika;3
+Peeter Puu;Eesti keel;4
+Peeter Puu;Inglise keel;3
+Mari Mets;Matemaatika;5
+Mari Mets;Eesti keel;4
+Mari Mets;Inglise keel;5
+Jüri Juurikas;Matemaatika;4
+Jüri Juurikas;Eesti keel;4
+Jüri Juurikas;Inglise keel;4
+Anna Aru;Matemaatika;3
+Anna Aru;Eesti keel;4
+Anna Aru;Inglise keel;3
