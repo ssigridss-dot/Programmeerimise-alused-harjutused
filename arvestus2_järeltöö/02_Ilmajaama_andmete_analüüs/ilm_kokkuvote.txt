@@ -1,0 +1,5 @@
+Mõõtmiste arv: 10
+Keskmine temperatuur: -0.56 °C
+Kogu sademete hulk: 23.400000000000002 mm
+Kõige külmem päev: 2024-01-09 (-6.3 °C)
+Kõige soojem päev: 2024-01-06 (5.8 °C)

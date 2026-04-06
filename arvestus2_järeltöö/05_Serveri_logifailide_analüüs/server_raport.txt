@@ -1,0 +1,10 @@
+Kokku kirjeid: 15
+INFO: 8 (53.33%)
+WARNING: 3 (20.0%)
+ERROR: 2 (13.33%)
+CRITICAL: 2 (13.33%)
+TOP 3 IP aadressi:
+192.168.1.100 - 6
+192.168.1.105 - 4
+192.168.1.102 - 2
+Süsteemi staatus: HOIATUS

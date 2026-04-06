@@ -1,0 +1,4 @@
+Õpilaste arv: 6
+Hinnete arv: 18
+Üldine keskmine hinne: 4.11
+Parim õpilane: Kati Kask (5.0)
