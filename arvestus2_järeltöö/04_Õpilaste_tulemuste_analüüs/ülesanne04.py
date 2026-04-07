@@ -53,24 +53,22 @@ Kati Kask;Matemaatika;5
 7. Programm peab töötama tsüklis kuni kasutaja valib "0 - Välju"""
 
 def read_students(filename: str) -> dict:
+    """Read and save students data from given file."""
     students = {}
-
-    with open(filename, "r", encoding="utf-8") as f:
+    with open(filename, "r") as f:
         for line in f:
             parts = line.strip().split(";")
 
             name = parts[0]
             class_name = parts[1]
-
             students[name] = class_name
-
     return students
 
 
 def read_grades(filename: str) -> list:
+    """Read and save students grades from given file."""
     grades = []
-
-    with open(filename, "r", encoding="utf-8") as f:
+    with open(filename, "r") as f:
         for line in f:
             parts = line.strip().split(";")
 
@@ -83,43 +81,35 @@ def read_grades(filename: str) -> list:
                 "subject": subject,
                 "grade": grade
             }
-
             grades.append(entry)
-
     return grades
 
 
 def show_students(students: dict) -> None:
+    """Show all students with their classes."""
     print("\nÕpilased:")
-    print("-" * 40)
-
     for name in students:
         print(name, "| klass:", students[name])
 
 
 def student_grades(students: dict, grades: list) -> None:
+    """Show student and their grades."""
     name = input("Sisesta õpilase nimi: ")
-
     if name not in students:
         print("Õpilast ei leitud!")
         return
-
     print("\nÕpilane:", name)
     print("Klass:", students[name])
 
     total = 0
     count = 0
     passed = True
-
     print("Hinded:")
-
     for entry in grades:
         if entry["name"] == name:
             print(entry["subject"], ":", entry["grade"])
-
             total = total + entry["grade"]
             count = count + 1
-
             if entry["grade"] < 3:
                 passed = False
 
@@ -131,16 +121,15 @@ def student_grades(students: dict, grades: list) -> None:
         return
 
     if passed:
-        print("Õpilane on läbinud")
+        print("Õpilane on läbinud.")
     else:
-        print("Õpilane ei läbinud")
+        print("Õpilane ei läbinud.")
 
 
 def class_stats(students: dict, grades: list) -> None:
+    """Show statistics of class."""
     class_name = input("Sisesta klass: ")
-
     class_students = []
-
     for name in students:
         if students[name] == class_name:
             class_students.append(name)
@@ -152,47 +141,37 @@ def class_stats(students: dict, grades: list) -> None:
     print("\nKlassi õpilased:")
     for name in class_students:
         print(name)
-
     total = 0
     count = 0
-
     best_average = 0
     best_student = ""
-
     for name in class_students:
         student_total = 0
         student_count = 0
-
         for entry in grades:
             if entry["name"] == name:
                 student_total = student_total + entry["grade"]
                 student_count = student_count + 1
-
         if student_count > 0:
             avg = student_total / student_count
-
             total = total + student_total
             count = count + student_count
-
             if avg > best_average:
                 best_average = avg
                 best_student = name
-
     if count > 0:
         class_average = total / count
         print("\nKlassi keskmine hinne:", round(class_average, 2))
-
     print("Parim õpilane:", best_student, "(", round(best_average, 2), ")")
 
 
 def save_summary(students: dict, grades: list) -> None:
+    """Write summary of students statistics to file."""
     student_count = 0
     for _ in students:
         student_count = student_count + 1
-
     grade_count = 0
     total = 0
-
     for entry in grades:
         total = total + entry["grade"]
         grade_count = grade_count + 1
@@ -204,24 +183,20 @@ def save_summary(students: dict, grades: list) -> None:
 
     best_average = 0
     best_student = ""
-
     for name in students:
         student_total = 0
         student_count_inner = 0
-
         for entry in grades:
             if entry["name"] == name:
                 student_total = student_total + entry["grade"]
                 student_count_inner = student_count_inner + 1
-
         if student_count_inner > 0:
             avg = student_total / student_count_inner
-
             if avg > best_average:
                 best_average = avg
                 best_student = name
 
-    with open("tulemused_kokkuvõte.txt", "w", encoding="utf-8") as f:
+    with open("tulemused_kokkuvõte.txt", "w") as f:
         f.write("Õpilaste arv: " + str(student_count) + "\n")
         f.write("Hinnete arv: " + str(grade_count) + "\n")
         f.write("Üldine keskmine hinne: " + str(round(overall_avg, 2)) + "\n")
@@ -231,11 +206,11 @@ def save_summary(students: dict, grades: list) -> None:
 
 
 def menu():
+    """Create user main menu."""
     students = read_students("õpilased.txt")
     grades = read_grades("hinded.txt")
-
     while True:
-        print("\n--- ÕPILASTE TULEMUSED ---")
+        print("\nÕpilaste tulemused: ")
         print("1 - Kuva kõik õpilased")
         print("2 - Õpilase hinded")
         print("3 - Klassi statistika")
@@ -243,7 +218,6 @@ def menu():
         print("0 - Välju")
 
         choice = input("Valik: ")
-
         if choice == "1":
             show_students(students)
         elif choice == "2":
@@ -253,7 +227,7 @@ def menu():
         elif choice == "4":
             save_summary(students, grades)
         elif choice == "0":
-            print("Head aega!")
+            print("Programm sulgub!")
             break
         else:
             print("Vale valik!")

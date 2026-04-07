@@ -51,9 +51,9 @@ Kus:
 """
 
 def read_logs(filename: str) -> list:
+    """Read and save server logs from given file."""
     logs = []
-
-    with open(filename, "r", encoding="utf-8") as f:
+    with open(filename, "r") as f:
         for line in f:
             parts = line.strip().split(";")
 
@@ -68,28 +68,22 @@ def read_logs(filename: str) -> list:
                 "type": log_type,
                 "code": code
             }
-
             logs.append(entry)
-
     return logs
 
 
 def show_all_logs(logs: list) -> None:
+    """Show all server logs."""
     total = 0
-
     info_count = 0
     warning_count = 0
     error_count = 0
     critical_count = 0
 
     print("\nKõik logikirjed:")
-    print("-" * 70)
-
     for log in logs:
         print(log["time"], "|", log["ip"], "|", log["type"], "|", log["code"])
-
         total = total + 1
-
         if log["type"] == "INFO":
             info_count = info_count + 1
         elif log["type"] == "WARNING":
@@ -107,16 +101,13 @@ def show_all_logs(logs: list) -> None:
 
 
 def filter_by_type(logs: list) -> None:
+    """Filter server logs by type."""
     selected = input("Sisesta tüüp (INFO/WARNING/ERROR/CRITICAL): ").upper()
-
     total = 0
     match_count = 0
-
     print("\nValitud kirjed:")
-
     for log in logs:
         total = total + 1
-
         if log["type"] == selected:
             print(log["time"], "|", log["ip"], "|", log["type"], "|", log["code"])
             match_count = match_count + 1
@@ -125,67 +116,51 @@ def filter_by_type(logs: list) -> None:
         percent = (match_count / total) * 100
     else:
         percent = 0
-
-    print("\nSelliseid kirjeid:", match_count)
+    print("\nSelliseid kirjeid kokku:", match_count)
     print("Protsent kõigist:", round(percent, 2), "%")
 
 
 def ip_statistics(logs: list) -> None:
+    """Analyze IP-statistics by user choice."""
     ip_counts = {}
     ip_errors = {}
-
-    # loe kõik
     for log in logs:
         ip = log["ip"]
-
         if ip not in ip_counts:
             ip_counts[ip] = 0
             ip_errors[ip] = 0
-
         ip_counts[ip] = ip_counts[ip] + 1
 
         if log["type"] == "ERROR" or log["type"] == "CRITICAL":
             ip_errors[ip] = ip_errors[ip] + 1
 
     print("\nIP statistika:")
-    print("-" * 50)
-
-    # leia TOP 5
-    used = []
-
+    used = []  # siin leian statistika jaoks top 5 aktiivsemat IP-aadressi
     for i in range(5):
         max_ip = ""
         max_count = -1
-
         for ip in ip_counts:
             if ip not in used:
                 if ip_counts[ip] > max_count:
                     max_count = ip_counts[ip]
                     max_ip = ip
-
         if max_ip == "":
             break
-
-        print(max_ip, "| kirjeid:", ip_counts[max_ip], "| vead:", ip_errors[max_ip])
-
+        print(max_ip, "| kirjeid:", ip_counts[max_ip], "| vigu:", ip_errors[max_ip])
         used.append(max_ip)
 
 
 def save_report(logs: list) -> None:
+    """Save and write the report of user choice."""
     total = 0
-
     info = 0
     warning = 0
     error = 0
     critical = 0
-
     ip_counts = {}
-
     for log in logs:
         total = total + 1
-
         log_type = log["type"]
-
         if log_type == "INFO":
             info = info + 1
         elif log_type == "WARNING":
@@ -196,14 +171,11 @@ def save_report(logs: list) -> None:
             critical = critical + 1
 
         ip = log["ip"]
-
         if ip not in ip_counts:
             ip_counts[ip] = 0
-
         ip_counts[ip] = ip_counts[ip] + 1
 
-    # protsendid
-    if total > 0:
+    if total > 0:  # siin leian protsendid
         info_p = (info / total) * 100
         warning_p = (warning / total) * 100
         error_p = (error / total) * 100
@@ -211,29 +183,22 @@ def save_report(logs: list) -> None:
     else:
         info_p = warning_p = error_p = critical_p = 0
 
-    # TOP 3 IP
-    used = []
+    used = []  # siin leian top 3 aktiivsemat IP-aadressi
     top_ips = []
-
     for i in range(3):
         max_ip = ""
         max_count = -1
-
         for ip in ip_counts:
             if ip not in used:
                 if ip_counts[ip] > max_count:
                     max_count = ip_counts[ip]
                     max_ip = ip
-
         if max_ip == "":
             break
-
         top_ips.append((max_ip, max_count))
         used.append(max_ip)
 
-    # süsteemi staatus
     error_total = error + critical
-
     if total > 0:
         error_percent = (error_total / total) * 100
     else:
@@ -244,7 +209,7 @@ def save_report(logs: list) -> None:
     else:
         status = "HOIATUS"
 
-    with open("server_raport.txt", "w", encoding="utf-8") as f:
+    with open("server_raport.txt", "w") as f:
         f.write("Kokku kirjeid: " + str(total) + "\n")
 
         f.write("INFO: " + str(info) + " (" + str(round(info_p, 2)) + "%)\n")
@@ -255,17 +220,15 @@ def save_report(logs: list) -> None:
         f.write("TOP 3 IP aadressi:\n")
         for item in top_ips:
             f.write(item[0] + " - " + str(item[1]) + "\n")
-
         f.write("Süsteemi staatus: " + status + "\n")
-
     print("Raport salvestatud faili server_raport.txt")
 
 
 def menu():
+    """Create the main menu of the program."""
     logs = read_logs("server.txt")
-
     while True:
-        print("\n--- SERVERI LOGID ---")
+        print("\nServeri logid: ")
         print("1 - Kuva kõik logikirjed")
         print("2 - Filtreeri tüübi järgi")
         print("3 - IP statistika")
@@ -273,7 +236,6 @@ def menu():
         print("0 - Välju")
 
         choice = input("Valik: ")
-
         if choice == "1":
             show_all_logs(logs)
         elif choice == "2":
@@ -283,7 +245,7 @@ def menu():
         elif choice == "4":
             save_report(logs)
         elif choice == "0":
-            print("Head aega!")
+            print("Programm sulgub!")
             break
         else:
             print("Vale valik!")
