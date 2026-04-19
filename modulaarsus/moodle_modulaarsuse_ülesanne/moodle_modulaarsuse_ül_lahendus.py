@@ -2,15 +2,56 @@ from school import School
 from student import Student
 from course import Course
 
+
+def test_course_repr():
+    course1 = Course("Math")
+    assert str(course1) == "Math"
+
 def test_get_grades():
+    school = School("School cool")
     course1 = Course("Math")
     student1 = Student("John Smith")
-    course1._Course__grades[student1] = 5
+    school.add_course(course1)
+    school.add_student(student1)
+    school.add_student_grade(student1, course1, 5)
     assert course1.get_grades() == [(student1, 5)]
 
+def test_get_course_average_grade():
+    school = School("School cool")
+    course1 = Course("Math")
+    student1 = Student("John Smith")
+    student2 = Student("John Smith2")
+    school.add_student(student1)
+    school.add_student(student2)
+    school.add_student_grade(student1, course1, 5)
+    school.add_student_grade(student2, course1, 4)
+    assert course1.get_average_grade() == 4.5
+
+def test_get_student_grades():
+    school = School("School cool")
+    course1 = Course("Math")
+    course2 = Course("PT")
+    student1 = Student("John Smith")
+    student2 = Student("John Smith2")
+    school.add_student(student1)
+    school.add_student(student2)
+    school.add_student_grade(student1, course1, 5)
+    school.add_student_grade(student1, course2, 2)
+    assert student1.get_grades() == [(course1, 5), (course2, 2)]
+
+def test_get_student_average_grade():
+    school = School("School cool")
+    course1 = Course("Math")
+    course2 = Course("PT")
+    student1 = Student("John Smith")
+    student2 = Student("John Smith2")
+    school.add_student(student1)
+    school.add_student(student2)
+    school.add_student_grade(student1, course1, 5)
+    school.add_student_grade(student1, course2, 2)
+    assert student1.get_average_grade() == 3.5
 
 if __name__ == '__main__':
-    test_get_grades()
     school = School("Awesome School")
     student1 = Student("John Smith")
     student2 = Student("Mary Lee")

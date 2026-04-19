@@ -49,14 +49,13 @@ def filter_by_hobby(people_list: list, hobby: str) -> list:
     :param hobby: hobby to filter by.
     :return: filtered list of people.
     """
-    """
-    result = []
+    """result = []
     for person in people_list:
         if hobby in person.hobbies:
             result.append(person)
-    return result
-    """
-    return list(filter(lambda person: hobby in person))
+    return result"""
+
+    return list(filter(lambda person: hobby in person.hobbies, people_list))
 
 
 def sort_by_most_hobbies(people_list: list) -> list:
@@ -95,6 +94,8 @@ def sort_people_and_hobbies(people_list: list) -> list:
     :return: sorted list of people.
     """
     sorted_people = sorted(people_list, key=lambda person: person.full_name)
+    for person in sorted_people:
+        person.hobbies = sorted(person.hobbies)
     return sorted_people
 
 
