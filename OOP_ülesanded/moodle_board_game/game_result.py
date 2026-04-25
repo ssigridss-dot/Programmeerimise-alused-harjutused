@@ -1,4 +1,8 @@
+"""Board game."""
+
+
 class GameResult:
-    def __init__(self, result-type: str, result_value):
-        self.__type = result_type
-        self.__value = result_value
+    """Game result class."""
+    def __init__(self):
+        self.__type = ""
+        self.__value = ""
