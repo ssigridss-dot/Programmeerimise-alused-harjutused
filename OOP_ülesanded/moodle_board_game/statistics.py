@@ -4,19 +4,91 @@
 from player import Player
 from game import Game
 from play_session import PlaySession
+from game_result import GameResult
 
 
 class Statistics:
     """Board games statistics class."""
 
     def __init__(self, filename):
-        """Initialze statistics."""
+        """Initialze statistics from file."""
         self.__players: list[Player] = []
         self.__games: list[Game] = []
         self.__play_sessions: list[PlaySession] = []
 
+        self.__load_file(filename)
+
+    def __get_or_create_player(self, name: str) -> Player:
+        for p in self.__players:
+            if p.get_name() == name:
+                return p
+
+        new_p = Player(name)
+        self.__players.append(new_p)
+        return new_p
+
+    def __get_or_create_game(self, name: str) -> Game:
+        for g in self.__games:
+            if g.get_name() == name:
+                return g
+
+        new_g = Game(name)
+        self.__games.append(new_g)
+        return new_g
+
+    def __load_file(self, filename):
+        """Read the statistics file."""
+        with open(filename, "r") as f:
+            for line in f:
+                parts = line.strip().split(";")
+
+                game_name = parts[0]
+                player_names = parts[1].split(",")
+                result_type = parts[2]
+
+                game = self.__get_or_create_game(game_name)
+                session = PlaySession(game)
+
+                players = []
+                for name in player_names:
+                    p = self.__get_or_create_player(name)
+                    p.add_game(game_name)
+                    session.add_player(p)
+                    players.append(p)
+
+                # RESULT PARSING
+                if result_type == "points":
+                    values = list(map(int, parts[3].split(",")))
+                    result = GameResult("points", values)
+
+                    # winner = max points
+                    max_points = max(values)
+                    winner_index = values.index(max_points)
+                    players[winner_index].add_win()
+
+                elif result_type == "places":
+                    values = parts[3].split(",")
+                    result = GameResult("places", values)
+
+                    winner_name = values[0]
+                    for p in players:
+                        if p.get_name() == winner_name:
+                            p.add_win()
+
+                else:  # winner
+                    winner_name = parts[3]
+                    result = GameResult("winner", [winner_name])
+
+                    for p in players:
+                        if p.get_name() == winner_name:
+                            p.add_win()
+
+                session.set_result(result)
+                self.__play_sessions.append(session)
+
     def get(self, path: str):
         """
+        API
         REST style path to invoke an action.
 
         "/players"                          - tagastab listi mängijate nimedest (nimede järjekord pole oluline).
@@ -35,7 +107,26 @@ class Statistics:
         "/game/{name}/record-holder"        - tagastab mängija (string), kes on mängus nimega game_name saanud enim punkte (ühe mängu jooksul), viigi korral tagastada see, kes selle tulemuse esimesena saavutas (seda funktsiooni kutsutakse vaid points mängu korral).
         """
         if path == "/players":
-            return list(map(lambda p: p.get_name(), self.__players))
+            return [p.get_name() for p in self.__players]
+
         elif path == "/games":
-            return list(map(lambda p: p.get_name(), self.__games))
+            return [g.get_name() for g in self.__games]
+
+        elif path == "/total":
+            return len(self.__play_sessions)
+
+        elif path.startswith("/player/"):
+            parts = path.split("/")
+            name = parts[2]
+            action = parts[3]
+
+            for p in self.__players:
+                if p.get_name() == name:
+                    if action == "amount":
+                        return p.get_played_game_count()
+                    elif action == "favourite":
+                        return p.get_favourite_game_name()
+                    elif action == "won":
+                        return p.get_won_game_count()
+
         return None
