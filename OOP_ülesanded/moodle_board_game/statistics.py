@@ -86,6 +86,10 @@ class Statistics:
                 session.set_result(result)
                 self.__play_sessions.append(session)
 
+    def __get_game_sessions(self, game_name: str):
+        """Return game session."""
+        return [s for s in self.__play_sessions if s.get_game().get_name() == game_name]
+
     def get(self, path: str):
         """
         API
@@ -109,13 +113,14 @@ class Statistics:
         if path == "/players":
             return [p.get_name() for p in self.__players]
 
-        elif path == "/games":
+        if path == "/games":
             return [g.get_name() for g in self.__games]
 
-        elif path == "/total":
+        if path == "/total":
             return len(self.__play_sessions)
 
-        elif path.startswith("/player/"):
+            # player endpoints
+        if path.startswith("/player/"):
             parts = path.split("/")
             name = parts[2]
             action = parts[3]
@@ -124,9 +129,123 @@ class Statistics:
                 if p.get_name() == name:
                     if action == "amount":
                         return p.get_played_game_count()
-                    elif action == "favourite":
+                    if action == "favourite":
                         return p.get_favourite_game_name()
-                    elif action == "won":
+                    if action == "won":
                         return p.get_won_game_count()
+
+            # GAME endpoints
+        if path.startswith("/game/"):
+            parts = path.split("/")
+            game_name = parts[2]
+            action = parts[3]
+
+            sessions = self.__get_game_sessions(game_name)
+
+            # kui pole mänge
+            if not sessions:
+                return None
+
+            # amount
+            if action == "amount":
+                return len(sessions)
+
+            # player-amount (unikaalsed mängijad)
+            if action == "player-amount":
+                players = set()
+                for s in sessions:
+                    for p in s.get_players():
+                        players.add(p.get_name())
+                return len(players)
+
+            # most-wins
+            if action == "most-wins":
+                win_count = {}
+                for s in sessions:
+                    result = s.get_result()
+                    if result.get_type() == "winner":
+                        w = result.get_values()[0]
+                        win_count[w] = win_count.get(w, 0) + 1
+
+                return max(win_count, key=win_count.get) if win_count else None
+
+            # most-frequent-winner
+            if action == "most-frequent-winner":
+                win_rate = {}
+                total = {}
+
+                for s in sessions:
+                    result = s.get_result()
+                    if result.get_type() == "winner":
+                        w = result.get_values()[0]
+                        total[w] = total.get(w, 0) + 1
+                        win_rate[w] = win_rate.get(w, 0) + 1
+
+                best = None
+                best_rate = -1
+
+                for p in win_rate:
+                    rate = win_rate[p] / total[p]
+                    if rate > best_rate:
+                        best_rate = rate
+                        best = p
+
+                return best
+
+            # most-losses (places only)
+            if action == "most-losses":
+                losses = {}
+
+                for s in sessions:
+                    result = s.get_result()
+                    if result.get_type() == "places":
+                        last = result.get_values()[-1]
+                        losses[last] = losses.get(last, 0) + 1
+
+                return max(losses, key=losses.get) if losses else None
+
+            # most-frequent-loser
+            if action == "most-frequent-loser":
+                total = {}
+                losses = {}
+
+                for s in sessions:
+                    result = s.get_result()
+                    if result.get_type() == "places":
+                        last = result.get_values()[-1]
+                        for p in s.get_players():
+                            name = p.get_name()
+                            total[name] = total.get(name, 0) + 1
+                            if name == last:
+                                losses[name] = losses.get(name, 0) + 1
+
+                best = None
+                best_rate = -1
+
+                for p in losses:
+                    rate = losses[p] / total[p]
+                    if rate > best_rate:
+                        best_rate = rate
+                        best = p
+
+                return best
+
+            # record-holder (points game)
+            if action == "record-holder":
+                best_player = None
+                best_score = -1
+
+                for s in sessions:
+                    result = s.get_result()
+                    if result.get_type() == "points":
+                        values = result.get_values()
+                        players = s.get_players()
+
+                        for i in range(len(values)):
+                            if values[i] > best_score:
+                                best_score = values[i]
+                                best_player = players[i].get_name()
+
+                return best_player
 
         return None
